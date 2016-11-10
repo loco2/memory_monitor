@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+require "optparse"
+require_relative "../lib/memory_monitor"
+
+options = {}
+
+prev = nil
+args = ARGV.take_while { |arg|
+  val = arg.start_with?("-") || prev && prev.start_with?("-")
+  prev = arg
+  val
+}
+
+unless args.include?("-l") || args.include?("--limit")
+  args = ["--help"]
+end
+
+OptionParser.new { |opts|
+  opts.banner = "Usage: #{$0} [OPTIONS] [COMMAND]\n\n"
+
+  opts.on("-l", "--limit LIMIT", "Memory limit for any one process (MB, required)") do |v|
+    options[:limit] = v.to_i
+  end
+
+  opts.on("-t", "--timeout TIMEOUT", "Timeout (seconds, default: 2)") do |v|
+    options[:timeout] = v.to_f
+  end
+
+  opts.on("-i", "--interval INTERVAL", "Memory check interval (seconds, default: 1)") do |v|
+    options[:interval] = v.to_f
+  end
+}.parse(args)
+
+exit MemoryMonitor.run(ARGV.drop(args.length), options)
