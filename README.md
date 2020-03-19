@@ -55,4 +55,4 @@ would be more complex and is not worth it.)
 
 * Memory usage is measured by shelling out to the `ps` command; the
   current implementation may be incompatible with some systems.
-* Tested with Ruby 2.3, but may work on prior versions too.
+* Tested with Ruby >= 2.3, but may work on prior versions too.
