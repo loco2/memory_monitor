@@ -6,8 +6,8 @@ class MemoryMonitor
 
   SIGNALS = %w(HUP INT QUIT USR1 USR2 TERM)
 
-  def self.run(*args, **kwargs)
-    new(*args, **kwargs).run
+  def self.run(command, **kwargs)
+    new(command, **kwargs).run
   end
 
   def initialize(command, limit:, timeout: 2, interval: 1)
